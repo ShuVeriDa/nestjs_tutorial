@@ -5,6 +5,7 @@ import { CreateUserDto } from '../../dto/CreateUser.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntities } from '../../../typeorm/UserEntities';
 import { Repository } from 'typeorm';
+import { encodePassword } from '../../../utils/bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -28,7 +29,9 @@ export class UsersService {
   }
 
   createUser(createUserDto: CreateUserDto) {
-    const newUser = this.userRepository.create(createUserDto);
+    const password = encodePassword(createUserDto.password);
+    console.log(password);
+    const newUser = this.userRepository.create({ ...createUserDto, password });
     return this.userRepository.save(newUser);
   }
 
