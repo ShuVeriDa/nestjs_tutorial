@@ -11,12 +11,14 @@ async function bootstrap() {
       name: 'NESTJS_SESSION_ID',
       secret: 'ASASASASASASASFDAFA',
       resave: false,
-      saveUninitialized: true,
+      saveUninitialized: false,
       cookie: {
         maxAge: 60000,
       },
     }),
   );
+  app.use(passport.initialize());
+  app.use(passport.session());
   await app.listen(5001);
 }
 bootstrap();
